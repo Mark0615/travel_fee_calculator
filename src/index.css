@@ -152,3 +152,181 @@ button {
   opacity: .5;
   cursor: not-allowed;
 }
+
+/* ---------- Theme tokens ---------- */
+:root {
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-dark: 0 10px 28px rgba(0,0,0,.55), 0 2px 10px rgba(0,0,0,.35);
+  --border: rgba(0,0,0,.08);
+  --border-dark: rgba(255,255,255,.12);
+
+  --btn-bg: #111;
+  --btn-fg: #fff;
+  --btn-bg-hover: #222;
+  --btn-ring: #646cff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --btn-bg: #2a2a2a;
+    --btn-fg: #fff;
+    --btn-bg-hover: #3a3a3a;
+  }
+}
+
+/* ---------- Layout / Cards ---------- */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 16px;
+  background: rgba(255,255,255,.9);
+  box-shadow: var(--shadow);
+  backdrop-filter: saturate(120%) blur(2px);
+}
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: rgba(30,30,30,.9);
+    border-color: var(--border-dark);
+    box-shadow: var(--shadow-dark);
+  }
+}
+
+/* ---------- Titles ---------- */
+h1 {
+  font-size: clamp(24px, 4vw, 34px);
+  margin: 6px 0 2px;
+}
+h2 {
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+
+/* ---------- Grids & inputs ---------- */
+.grid-2 {
+  display: grid; gap: 8px; grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+
+.grid-3 {
+  display: grid; gap: 8px; grid-template-columns: 1fr;
+  align-items: end;
+}
+@media (min-width: 768px) { .grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+
+.input-full { width: 100%; }
+
+/* 統一表單外觀 + 焦點態 */
+input[type="number"], input[type="text"], select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease, background .2s;
+}
+input::placeholder { opacity: .7; }
+@media (prefers-color-scheme: dark) {
+  input[type="number"], input[type="text"], select {
+    border-color: var(--border-dark);
+    background: rgba(255,255,255,.03);
+  }
+}
+input:focus, select:focus {
+  border-color: var(--btn-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--btn-ring) 28%, transparent);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 600;
+  letter-spacing: .2px;
+  transition: transform .05s ease, box-shadow .15s ease, background .15s ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,.08);
+}
+.btn-primary:hover { background: var(--btn-bg-hover); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; filter: grayscale(.2); }
+
+/* 次要按鈕（例如刪除 X） */
+.btn-ghost {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: inherit;
+  border-radius: 10px;
+  padding: 6px 10px;
+  transition: background .15s ease, border-color .15s ease;
+}
+.btn-ghost:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  border-color: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+/* ---------- Records (深/淺色都清楚) ---------- */
+.record-item {
+  display: flex; justify-content: space-between; align-items: center;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  background: #fff; color: #000; border: 1px solid var(--border);
+}
+@media (prefers-color-scheme: dark) {
+  .record-item { background: #2e2e2e; color: #fff; border-color: var(--border-dark); }
+}
+
+/* ---------- Utilities ---------- */
+.center { display: flex; justify-content: center; }
+
+/* 進場微動畫（尊重減少動畫設定） */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in { animation: fadeIn .24s ease-out both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Desktop：讓容器更寬、更有餘裕 */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1040px; /* 原本 800~860，桌機更寬一些 */
+    padding: 28px;
+  }
+}
+
+/* 標題更聰明的換行與縮放（手機不會單字掉行） */
+.title {
+  text-align: center;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 8px 0 4px;
+
+  /* 自動縮放：手機小、桌機大 */
+  font-size: clamp(22px, 5.5vw, 40px);
+
+  /* 盡量保持整句平衡換行（支援的新瀏覽器會生效） */
+  text-wrap: balance;
+
+  /* 中文避免逐字斷行（舊瀏覽器會用這個fallback） */
+  word-break: keep-all;
+
+  /* 極窄螢幕避免溢出時仍可斷行 */
+  overflow-wrap: anywhere;
+}

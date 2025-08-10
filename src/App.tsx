@@ -6,6 +6,10 @@ type Payment = {
   amount: number;
 };
 
+// 金額格式化（整數、千分位）
+const moneyFmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+const formatMoney = (value: number) => moneyFmt.format(Math.round(value));
+
 function calculate(people: string[], payments: Payment[]) {
   const balance: Record<string, number> = Object.fromEntries(
     people.map((p) => [p, 0])
@@ -83,7 +87,7 @@ export default function App() {
 
   return (
     <div className="container fade-in">
-      <h1 style={{ textAlign: "center" }}>🧮 旅遊分帳小幫手</h1>
+      <h1 className="title">🧮 旅遊分帳小幫手</h1>
 
       {/* 1️⃣ 出遊人數 & 成員名稱 */}
       <section className="card">
@@ -189,7 +193,7 @@ export default function App() {
                 <li key={idx} className="record-item">
                   <span>
                     <strong>{p.payer}</strong> 幫 {p.beneficiaries.join(" 、")} 付：$
-                    {Number(p.amount).toFixed(0)}
+                    {formatMoney(p.amount)}
                   </span>
                   <button
                     className="btn-ghost"
@@ -234,7 +238,7 @@ export default function App() {
                   <span>{n}</span>
                   <span>
                     {result.balance[n] > 0 ? "+" : ""}
-                    {result.balance[n].toFixed(0)}
+                    {formatMoney(result.balance[n])}
                   </span>
                 </li>
               ))}
@@ -246,7 +250,7 @@ export default function App() {
             {result.settlements.length ? (
               <ul style={{ fontSize: 14 }}>
                 {result.settlements.map(([d, c, a], i) => (
-                  <li key={i}>{`${d} → ${c}: $${a.toFixed(0)}`}</li>
+                  <li key={i}>{`${d} → ${c}: $${formatMoney(a)}`}</li>
                 ))}
               </ul>
             ) : (
