@@ -1,69 +1,45 @@
-# React + TypeScript + Vite
+# 🧮 旅遊分帳小幫手 | Travel Fee Splitter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-purple?logo=vite)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Cloudflare Pages](https://img.shields.io/badge/Deployed%20on-Cloudflare%20Pages-orange?logo=cloudflare)](https://pages.cloudflare.com/)
 
-Currently, two official plugins are available:
+## 🌐 Demo
+🔗 **Live Site**: [https://travel-fee-calculator.pages.dev/](https://travel-fee-calculator.pages.dev/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📖 專案簡介 | Project Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+旅遊分帳小幫手是一款幫助多人出遊時快速計算AA制結算的線上工具。  
+支援**自動結算**、**深色模式適配**、**手機電腦自適應(RWD)**、以及**金額千分位顯示**。  
+Travel Fee Splitter is an online tool that helps groups easily split expenses during trips.  
+It supports **automatic settlement**, **dark mode support**, **responsive design for mobile & desktop**, and **thousand separators for amounts**.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## ✨ 功能特色 | Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 🧮 **自動計算各成員應收/應付** | Automatically calculates each member's balance
+- 💡 **建議結算方式** | Suggested settlements
+- 🌙 **支援深色模式** | Dark mode support
+- 📱 **手機 & 桌機自適應** | Fully responsive design
+- 💰 **金額千分位顯示** | Thousand separator for amounts
+- 🗑️ **快速刪除紀錄** | Quick delete for records
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠 技術棧 | Tech Stack
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)  
+- [Vite](https://vitejs.dev/)  
+- [Cloudflare Pages](https://pages.cloudflare.com/) for hosting
+
+## 📸 截圖 | Screenshots
+桌機版 | Desktop
+<img width="1098" height="388" alt="旅遊分帳小幫手_PC" src="https://github.com/user-attachments/assets/a1852b81-7de7-49cb-9f2e-11d6831bb494" />
+
+手機版 | Mobile
+![旅遊分帳小幫手_MB](https://github.com/user-attachments/assets/f43faf75-5b6f-4503-9212-8706d82aa9b5)
+
