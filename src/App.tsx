@@ -10,22 +10,27 @@ function calculate(people: string[], payments: Payment[]) {
   const balance: Record<string, number> = Object.fromEntries(
     people.map((p) => [p, 0])
   );
+
   for (const { payer, beneficiaries, amount } of payments) {
     const share = amount / beneficiaries.length;
     for (const b of beneficiaries) balance[b] -= share;
     balance[payer] += amount;
   }
+
   const creditors = Object.entries(balance)
     .filter(([, v]) => v > 1e-6)
     .map(([p, v]) => [p, v] as [string, number])
     .sort((a, b) => b[1] - a[1]);
+
   const debtors = Object.entries(balance)
     .filter(([, v]) => v < -1e-6)
     .map(([p, v]) => [p, -v] as [string, number])
     .sort((a, b) => b[1] - a[1]);
+
   const settlements: [string, string, number][] = [];
   let i = 0,
     j = 0;
+
   while (i < debtors.length && j < creditors.length) {
     const pay = Math.min(debtors[i][1], creditors[j][1]);
     settlements.push([debtors[i][0], creditors[j][0], pay]);
@@ -34,6 +39,7 @@ function calculate(people: string[], payments: Payment[]) {
     if (debtors[i][1] < 1e-6) i++;
     if (creditors[j][1] < 1e-6) j++;
   }
+
   return { balance, settlements };
 }
 
@@ -50,6 +56,7 @@ export default function App() {
   const filled = names.map((n) => n.trim()).filter(Boolean);
   const ready = filled.length === Number(count);
 
+  // 若成員輸入完畢，預設付款人選第一位
   useEffect(() => {
     if (ready) {
       setTemp((t) => ({
@@ -62,8 +69,10 @@ export default function App() {
   const addPayment = () => {
     const amt = parseFloat(temp.amount);
     if (isNaN(amt) || amt <= 0 || !temp.payer) return;
+
     const beneficiaries =
       temp.beneficiary === "all" ? [...filled] : [temp.beneficiary];
+
     setPayments((p) => [
       ...p,
       { payer: temp.payer, beneficiaries, amount: amt },
@@ -73,12 +82,13 @@ export default function App() {
   };
 
   return (
-    <div className="container">
-      <h1 style={{ textAlign: "center" }}>🧮 AA 制結算小幫手</h1>
+    <div className="container fade-in">
+      <h1 style={{ textAlign: "center" }}>🧮 旅遊分帳小幫手</h1>
 
       {/* 1️⃣ 出遊人數 & 成員名稱 */}
       <section className="card">
         <h2>1️⃣ 出遊人數 & 成員名稱</h2>
+
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <label>人數：</label>
           <input
@@ -87,8 +97,9 @@ export default function App() {
             max={26}
             value={count}
             onChange={(e) => {
-              const n = Number(e.target.value || 0);
-              setCount(e.target.value);
+              const raw = e.target.value;
+              const n = Number(raw || 0);
+              setCount(raw);
               setNames((prev) =>
                 n > prev.length
                   ? [...prev, ...Array(n - prev.length).fill("")]
@@ -97,7 +108,7 @@ export default function App() {
               setPayments([]);
               setResult(null);
             }}
-            style={{ width: 80 }}
+            style={{ width: 90 }}
           />
         </div>
 
@@ -117,6 +128,7 @@ export default function App() {
             />
           ))}
         </div>
+
         {!ready && (
           <p style={{ fontSize: 12, color: "crimson", marginTop: 6 }}>
             請輸入所有成員名稱
@@ -128,6 +140,7 @@ export default function App() {
       {ready && (
         <section className="card">
           <h2>2️⃣ 新增付款紀錄</h2>
+
           {/* 手機單欄，>=768px 三欄 */}
           <div className="grid-3">
             <select
@@ -164,7 +177,9 @@ export default function App() {
                 onChange={(e) => setTemp({ ...temp, amount: e.target.value })}
                 className="input-full"
               />
-              <button onClick={addPayment}>＋</button>
+              <button className="btn-ghost" onClick={addPayment} title="新增一筆">
+                ＋
+              </button>
             </div>
           </div>
 
@@ -174,9 +189,10 @@ export default function App() {
                 <li key={idx} className="record-item">
                   <span>
                     <strong>{p.payer}</strong> 幫 {p.beneficiaries.join(" 、")} 付：$
-                    {p.amount}
+                    {Number(p.amount).toFixed(0)}
                   </span>
                   <button
+                    className="btn-ghost"
                     onClick={() =>
                       setPayments((arr) => arr.filter((_, i) => i !== idx))
                     }
@@ -211,9 +227,15 @@ export default function App() {
             <h2>各自餘額</h2>
             <ul style={{ columns: 2, fontSize: 14 }}>
               {filled.map((n) => (
-                <li key={n} style={{ display: "flex", justifyContent: "space-between" }}>
+                <li
+                  key={n}
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <span>{n}</span>
-                  <span>{result.balance[n] > 0 ? "+" : ""}{result.balance[n].toFixed(0)}</span>
+                  <span>
+                    {result.balance[n] > 0 ? "+" : ""}
+                    {result.balance[n].toFixed(0)}
+                  </span>
                 </li>
               ))}
             </ul>
