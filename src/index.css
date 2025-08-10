@@ -66,3 +66,89 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* 讓瀏覽器知道我們支援 light/dark，並跟隨系統 */
+:root { color-scheme: light dark; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans TC", sans-serif;
+  background: Canvas;         /* 自動用淺/深背景 */
+  color: CanvasText;          /* 自動用淺/深文字色 */
+}
+
+/* 容器與卡片 */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.card {
+  border: 1px solid var(--card-border, #ddd);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+@media (prefers-color-scheme: dark) {
+  .card { --card-border: #444; }
+}
+
+/* RWD：預設單欄，小螢幕好閱讀；>=640px 變雙欄 */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* 付款紀錄：淺色/深色下都清楚可讀 */
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-top: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: #000;
+}
+@media (prefers-color-scheme: dark) {
+  .record-item {
+    background: #333;
+    color: #fff;
+  }
+}
+
+/* 表單元素在手機上預設 100% 寬，方便點擊 */
+input[type="number"],
+input[type="text"],
+select,
+button {
+  font-size: 16px;
+}
+.input-full { width: 100%; }
+
+/* 三欄輸入區：小螢幕單欄、>=768px 三欄 */
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  align-items: end;
+}
+@media (min-width: 768px) {
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* 置中區塊 */
+.center { display: flex; justify-content: center; }
+.btn-primary {
+  padding: 8px 28px;
+  cursor: pointer;
+}
+.btn-primary:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}

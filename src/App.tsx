@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-
 type Payment = {
   payer: string;
   beneficiaries: string[];
@@ -74,11 +73,11 @@ export default function App() {
   };
 
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto", padding: 16 }}>
+    <div className="container">
       <h1 style={{ textAlign: "center" }}>🧮 AA 制結算小幫手</h1>
 
       {/* 1️⃣ 出遊人數 & 成員名稱 */}
-      <section style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16, marginTop: 16 }}>
+      <section className="card">
         <h2>1️⃣ 出遊人數 & 成員名稱</h2>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <label>人數：</label>
@@ -102,17 +101,12 @@ export default function App() {
           />
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 8,
-            marginTop: 12,
-          }}
-        >
+        {/* 名稱輸入：手機單欄，>=640px 變雙欄 */}
+        <div className="grid-2" style={{ marginTop: 12 }}>
           {names.map((n, i) => (
             <input
               key={i}
+              className="input-full"
               placeholder={`成員 ${i + 1}`}
               value={n}
               onChange={(e) => {
@@ -132,12 +126,14 @@ export default function App() {
 
       {/* 2️⃣ 新增付款紀錄 */}
       {ready && (
-        <section style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16, marginTop: 16 }}>
+        <section className="card">
           <h2>2️⃣ 新增付款紀錄</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
+          {/* 手機單欄，>=768px 三欄 */}
+          <div className="grid-3">
             <select
               value={temp.payer}
               onChange={(e) => setTemp({ ...temp, payer: e.target.value })}
+              className="input-full"
             >
               <option value="">付款人</option>
               {filled.map((n) => (
@@ -150,6 +146,7 @@ export default function App() {
             <select
               value={temp.beneficiary}
               onChange={(e) => setTemp({ ...temp, beneficiary: e.target.value })}
+              className="input-full"
             >
               <option value="all">全體</option>
               {filled.map((n) => (
@@ -165,6 +162,7 @@ export default function App() {
                 placeholder="金額"
                 value={temp.amount}
                 onChange={(e) => setTemp({ ...temp, amount: e.target.value })}
+                className="input-full"
               />
               <button onClick={addPayment}>＋</button>
             </div>
@@ -173,19 +171,7 @@ export default function App() {
           {payments.length > 0 && (
             <ul style={{ marginTop: 12 }}>
               {payments.map((p, idx) => (
-                <li
-                  key={idx}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    background: "#f8f8f8",
-                    borderRadius: 8,
-                    padding: "6px 10px",
-                    marginTop: 6,
-                    fontSize: 14,
-                  }}
-                >
+                <li key={idx} className="record-item">
                   <span>
                     <strong>{p.payer}</strong> 幫 {p.beneficiaries.join(" 、")} 付：$
                     {p.amount}
@@ -207,11 +193,11 @@ export default function App() {
 
       {/* 3️⃣ 計算 */}
       {ready && (
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
+        <div className="center" style={{ marginTop: 16 }}>
           <button
+            className="btn-primary"
             disabled={!payments.length}
             onClick={() => setResult(calculate(filled, payments))}
-            style={{ padding: "8px 28px", cursor: payments.length ? "pointer" : "not-allowed" }}
           >
             計算結果
           </button>
@@ -221,7 +207,7 @@ export default function App() {
       {/* 4️⃣ 結果 */}
       {result && (
         <div style={{ marginTop: 16 }}>
-          <section style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16 }}>
+          <section className="card">
             <h2>各自餘額</h2>
             <ul style={{ columns: 2, fontSize: 14 }}>
               {filled.map((n) => (
@@ -233,7 +219,7 @@ export default function App() {
             </ul>
           </section>
 
-          <section style={{ border: "1px solid #ddd", borderRadius: 12, padding: 16, marginTop: 12 }}>
+          <section className="card" style={{ marginTop: 12 }}>
             <h2>建議結算</h2>
             {result.settlements.length ? (
               <ul style={{ fontSize: 14 }}>
