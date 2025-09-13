@@ -1,4 +1,4 @@
-# 🧮 旅遊分帳小幫手 | Travel Fee Splitter
+# 🧮 旅遊分帳小幫手 | Travel Expense Calculator
 
 [![React](https://img.shields.io/badge/React-18-blue?logo=react)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-5-purple?logo=vite)](https://vitejs.dev/)
@@ -14,7 +14,7 @@
 
 旅遊分帳小幫手是一款幫助多人出遊時快速計算AA制結算的線上工具。  
 支援**自動結算**、**深色模式適配**、**手機電腦自適應(RWD)**、以及**金額千分位顯示**。  
-Travel Fee Splitter is an online tool that helps groups easily split expenses during trips.  
+Travel Fee Calculator is an online tool that helps groups easily split expenses during trips.  
 It supports **automatic settlement**, **dark mode support**, **responsive design for mobile & desktop**, and **thousand separators for amounts**.
 
 ---
